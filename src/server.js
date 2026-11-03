@@ -1,9 +1,11 @@
 import express, { json } from 'express'
 import redisConnect from './config/redis.js'
-
+import productRouter from "./routes/products.route.js"
 const app = express();
 
 app.use(express.json())
+
+app.use('/api',productRouter)
 
 app.post('/redis/set',async(req,res)=>{
     const {key,value} = req.body;

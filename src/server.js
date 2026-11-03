@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { json } from 'express'
 import redisConnect from './config/redis.js'
 
 const app = express();
@@ -39,6 +39,22 @@ app.get('/redis/get/:key',async(req,res)=>{
         })
     }
 }) 
+
+app.delete('/redis/delete/:key',async(req,res)=>{
+    try{
+        const {key} = req.params;
+
+        const response = await redisConnect.del(key)
+
+        res.json({
+            delete:response===1
+        })
+    }catch(error){
+        res.status(500).json({
+            error:error.message
+        })
+    } 
+})
 
 
 const startServer = async() =>{
